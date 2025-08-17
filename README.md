@@ -25,16 +25,29 @@ A .NET 8 Web API built with minimal APIs, Entity Framework Core, PostgreSQL, JWT
    cd character-chat-api
    ```
 
-2. **Update connection string**
+2. **Configure application settings**
    
-   Edit `CharacterChatApi/appsettings.json` and update the PostgreSQL connection string:
-   ```json
-   {
-     "ConnectionStrings": {
-       "DefaultConnection": "Host=localhost;Database=character_chat_api;Username=your_username;Password=your_password"
-     }
-   }
+   The `appsettings.json` file contains placeholder values for security. You have several options for configuration:
+
+   **Option A: Use appsettings.Development.json (for development)**
+   
+   The development settings file already contains working values for local development.
+
+   **Option B: Use User Secrets (recommended for development)**
+   ```bash
+   cd CharacterChatApi
+   dotnet user-secrets init
+   dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Database=character_chat_api;Username=your_username;Password=your_password"
+   dotnet user-secrets set "Jwt:SecretKey" "your-secure-jwt-secret-key-minimum-32-characters"
    ```
+
+   **Option C: Use Environment Variables (recommended for production)**
+   ```bash
+   export ConnectionStrings__DefaultConnection="Host=localhost;Database=character_chat_api;Username=your_username;Password=your_password"
+   export Jwt__SecretKey="your-secure-jwt-secret-key-minimum-32-characters"
+   ```
+
+   **⚠️ Security Note:** Never commit real database credentials or JWT secrets to source control.
 
 3. **Run the application**
    ```bash
